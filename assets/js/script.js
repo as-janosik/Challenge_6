@@ -8,7 +8,14 @@ var day4 = document.getElementById('day4');
 var day5 = document.getElementById('day5');
 var currentDay = document.getElementById('curentWeather');
 
-
+//##########
+//##########
+//##########
+//PLEASE NOTE THE UV SECTION IS NOW PART OF THE PAY SIDE OF THE API
+//BOOTCAMP INSTRUCTOR SAID TO NOT SIGN UP, THEREFOR UNABLE TO COMPLETE UV SECTION OF THIS ASSIGNMENT
+//##########
+//##########
+//##########
 
 function getLocation() {
     // location api call
@@ -42,19 +49,8 @@ function getWeather(lt, ln) {
             return response.json();
         })
         .then(function (data) {
-            // console.dir(data);
-            // console.log("########Current#######")
-            // console.log(data.current);
 
-            //console.log("Current Date####")
             var currentDate = new Date(data.current.dt*1000);
-            // console.log(currentDate.toLocaleString());
-            // console.log("Current Wind Speed####")
-            // console.log(data.current.wind_speed);
-            // console.log("Current Humidity####")
-            // console.log(data.current.humidity);
-            // console.log("Current Temp####")
-            // console.log(data.current.temp);
             //Current Date
             const curDt = document.createElement("p");
             curDt.innerText = currentDate.toLocaleString();
@@ -74,10 +70,8 @@ function getWeather(lt, ln) {
 
 
             //Get 5 day forecast
-            //console.log("########Daily 5 day forecast#######")
             for (i = 0; i < 5; i++) {
                 var el = null
-                //console.log(el)
                 
                 if (i == 0){
                     el = day1;
@@ -97,18 +91,9 @@ function getWeather(lt, ln) {
                 }else{
                     console.log("false")
                 }
-                //console.log(el)
-                // console.log("Wind Speed####")
-                // console.log(data.daily[i].wind_speed);
-                // console.log("Humidity####")
-                // console.log(data.daily[i].humidity);
-                // console.log("Max Temp####")
-                // console.log(data.daily[i].temp.max);
-                // console.log("Min Temp####")
-                // console.log(data.daily[i].temp.min);
-                // console.log("Date####")
+
                  var myDate = new Date(data.daily[i].dt*1000);
-                // console.log(myDate.toLocaleString());
+
                 const Dt = document.createElement("p");
                 Dt.innerText = myDate.toLocaleString();
                 el.appendChild(Dt);
@@ -129,6 +114,6 @@ function getWeather(lt, ln) {
                 hightmp.innerText = data.daily[i].temp.max;
                 el.appendChild(hightmp);
             }
-            //console.log(data.daily);
+
         });
 }

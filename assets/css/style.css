@@ -1,0 +1,52 @@
+#curentWeather{
+    background-color: lightblue;
+    border-style: solid;
+}
+#fiveDay{
+    background-color: aquamarine;
+}
+#day1{
+    float: left;
+  height: 470px;
+  width: 23%;
+  padding: 0 10px;
+    /* border-style: solid; */
+}
+#day2{
+    float: left;
+  height: 470px;
+  width: 23%;
+  padding: 0 10px;
+    /* border-style: solid; */
+}
+#day3{
+    float: left;
+  height: 470px;
+  width: 23%;
+  padding: 0 10px;
+    /* border-style: solid; */
+}
+#day4{
+    float: left;
+  height: 470px;
+  width: 23%;
+  padding: 0 10px;
+    /* border-style: solid; */
+}
+#day5{
+    float: left;
+  height: 470px;
+  width: 23%;
+  padding: 0 10px;
+    /* border-style: solid; */
+}
+header{
+    width: 100%;
+    background-color: antiquewhite;
+}
+#sidebar{
+    width: 25%;
+}
+#weather{
+    margin-left:25%
+}
