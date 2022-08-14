@@ -18,7 +18,7 @@ var currentDay = document.getElementById('curentWeather');
 //##########
 
 function getLocation() {
-
+    removeChildren();
     var elText = document.getElementById('reqCity').value;
     console.log(elText);
     // location api call
@@ -119,4 +119,28 @@ function getWeather(lt, ln) {
             }
 
         });
+}
+
+function removeChildren(){
+
+    while (currentDay.lastChild) {
+        currentDay.removeChild(currentDay.lastChild);
+    }
+    while (day1.lastChild) {
+        day1.removeChild(day1.lastChild);
+    }
+    while (day2.lastChild) {
+        day2.removeChild(day2.lastChild);
+    }
+    while (day3.lastChild) {
+        day3.removeChild(day3.lastChild);
+    }
+    while (day4.lastChild) {
+        day4.removeChild(day4.lastChild);
+    }
+    while (day5.lastChild) {
+        day5.removeChild(day5.lastChild);
+    }
+    return;
+    
 }
