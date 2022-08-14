@@ -1,4 +1,4 @@
-var searchText = "Madison";
+//var searchText = "Madison";
 var fetchButton = document.getElementById('searchBtn');
 var key = "91ea17223475ce111fab7ed38d34168a";
 var day1 = document.getElementById('day1');
@@ -18,8 +18,11 @@ var currentDay = document.getElementById('curentWeather');
 //##########
 
 function getLocation() {
+
+    var elText = document.getElementById('reqCity').value;
+    console.log(elText);
     // location api call
-    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchText + '&limit=1&appid=' + key;
+    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + elText + '&limit=1&appid=' + key;
 
     fetch(requestUrl)
         .then(function (response) {
@@ -50,68 +53,68 @@ function getWeather(lt, ln) {
         })
         .then(function (data) {
 
-            var currentDate = new Date(data.current.dt*1000);
+            var currentDate = new Date(data.current.dt * 1000);
             //Current Date
             const curDt = document.createElement("p");
-            curDt.innerText = currentDate.toLocaleString();
+            curDt.innerText = "Today is "+currentDate.toLocaleString();
             currentDay.appendChild(curDt);
             //Current Wind
             const curWnd = document.createElement("p");
-            curWnd.innerText = data.current.wind_speed;
+            curWnd.innerText = "Current Wind Speed: "+data.current.wind_speed;
             currentDay.appendChild(curWnd);
             //Curent Humidity
             const curHum = document.createElement("p");
-            curHum.innerText = data.current.humidity;
+            curHum.innerText = "Current Humidity: "+data.current.humidity;
             currentDay.appendChild(curHum);
             //Current Temp
             const curtmp = document.createElement("p");
-            curtmp.innerText = data.current.temp;
+            curtmp.innerText = "Current Temp: "+data.current.temp;
             currentDay.appendChild(curtmp);
 
 
             //Get 5 day forecast
             for (i = 0; i < 5; i++) {
                 var el = null
-                
-                if (i == 0){
+
+                if (i == 0) {
                     el = day1;
-                    
-                }else if(i==1){
+
+                } else if (i == 1) {
                     el = day2;
-                    
-                }else if(i==2){
+
+                } else if (i == 2) {
                     el = day3;
-                    
-                }else if(i==3){
+
+                } else if (i == 3) {
                     el = day4;
-                    
-                }else if(i==4){
+
+                } else if (i == 4) {
                     el = day5;
-                    
-                }else{
+
+                } else {
                     console.log("false")
                 }
 
-                 var myDate = new Date(data.daily[i].dt*1000);
+                var myDate = new Date(data.daily[i].dt * 1000);
 
                 const Dt = document.createElement("p");
-                Dt.innerText = myDate.toLocaleString();
+                Dt.innerText = "Date: "+myDate.toLocaleString();
                 el.appendChild(Dt);
                 //Current Wind
                 const Wnd = document.createElement("p");
-                Wnd.innerText = data.daily[i].wind_speed;
+                Wnd.innerText = "Wind Speed: "+data.daily[i].wind_speed;
                 el.appendChild(Wnd);
                 //Curent Humidity
                 const Hum = document.createElement("p");
-                Hum.innerText = data.daily[i].humidity;
+                Hum.innerText = "Humidity: "+data.daily[i].humidity;
                 el.appendChild(Hum);
                 //Low Temp
                 const lowtmp = document.createElement("p");
-                lowtmp.innerText = data.daily[i].temp.min;
+                lowtmp.innerText = "Daily Low: "+data.daily[i].temp.min;
                 el.appendChild(lowtmp);
                 //High Temp
                 const hightmp = document.createElement("p");
-                hightmp.innerText = data.daily[i].temp.max;
+                hightmp.innerText = "Daily High: "+data.daily[i].temp.max;
                 el.appendChild(hightmp);
             }
 
