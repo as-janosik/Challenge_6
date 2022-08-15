@@ -7,6 +7,7 @@ var day3 = document.getElementById('day3');
 var day4 = document.getElementById('day4');
 var day5 = document.getElementById('day5');
 var currentDay = document.getElementById('curentWeather');
+//var elHistory = document.getElementById('history');
 
 //##########
 //##########
@@ -16,6 +17,24 @@ var currentDay = document.getElementById('curentWeather');
 //##########
 //##########
 //##########
+function loadHistory() {
+    var elHistory = document.getElementById('history');
+    // add history
+    var storageName = "weatherApp"
+    if (localStorage.getItem(storageName) === null) {
+        console.log("storage Null");
+    } else {
+        //console.log("StorageName: "+storageName);
+        var storedItems = JSON.parse(localStorage.getItem(storageName));
+        console.log(storedItems)
+        const liHis = document.createElement("li");
+        liHis.innerText = storedItems.City + "," + storedItems.state;
+        console.log(liHis);
+        elHistory.appendChild(liHis);
+    }
+}
+
+window.onload = loadHistory();
 
 function getLocation() {
     removeChildren();
@@ -29,13 +48,20 @@ function getLocation() {
             return response.json();
         })
         .then(function (data) {
-            //console.dir(data);
+            console.dir(data);
             for (var i = 0; i < data.length; i++) {
                 // console.log(data[i].name);
                 // console.log(data[i].state);
                 // console.log(data[i].lat.toString());
                 // console.log(data[i].lon.toString());
-                getWeather(data[i].lat.toString(), data[i].lon.toString());
+
+
+                //get name and state to save
+                var saveObject = { City: data[i].name, State: data[i].state };
+
+                localStorage.setItem("weatherApp", JSON.stringify(saveObject));
+
+                getWeather(data[i].lat.toString(), data[i].lon.toString(), data[i].name, data[i].state);
             }
         });
 }
@@ -43,7 +69,7 @@ function getLocation() {
 fetchButton.addEventListener('click', getLocation);
 
 //Function to use Latitude and Longitude to get weather of location
-function getWeather(lt, ln) {
+function getWeather(lt, ln, cty, st) {
     // Weather api call
     var requestUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lt + '&lon=' + ln + '&appid=' + key + '&units=imperial';
 
@@ -52,23 +78,33 @@ function getWeather(lt, ln) {
             return response.json();
         })
         .then(function (data) {
+            //console.dir(data);
+            //City
+            const curCty = document.createElement("p");
+            curCty.innerText = "City: " + cty;
+            currentDay.appendChild(curCty);
+            //State
+            const curSt = document.createElement("p");
+            curSt.innerText = "State: " + st;
+            currentDay.appendChild(curSt);
+
 
             var currentDate = new Date(data.current.dt * 1000);
             //Current Date
             const curDt = document.createElement("p");
-            curDt.innerText = "Today is "+currentDate.toLocaleString();
+            curDt.innerText = "Today is " + currentDate.toLocaleString();
             currentDay.appendChild(curDt);
             //Current Wind
             const curWnd = document.createElement("p");
-            curWnd.innerText = "Current Wind Speed: "+data.current.wind_speed;
+            curWnd.innerText = "Current Wind Speed: " + data.current.wind_speed;
             currentDay.appendChild(curWnd);
             //Curent Humidity
             const curHum = document.createElement("p");
-            curHum.innerText = "Current Humidity: "+data.current.humidity;
+            curHum.innerText = "Current Humidity: " + data.current.humidity;
             currentDay.appendChild(curHum);
             //Current Temp
             const curtmp = document.createElement("p");
-            curtmp.innerText = "Current Temp: "+data.current.temp;
+            curtmp.innerText = "Current Temp: " + data.current.temp;
             currentDay.appendChild(curtmp);
 
 
@@ -98,30 +134,30 @@ function getWeather(lt, ln) {
                 var myDate = new Date(data.daily[i].dt * 1000);
 
                 const Dt = document.createElement("p");
-                Dt.innerText = "Date: "+myDate.toLocaleString();
+                Dt.innerText = "Date: " + myDate.toLocaleString();
                 el.appendChild(Dt);
                 //Current Wind
                 const Wnd = document.createElement("p");
-                Wnd.innerText = "Wind Speed: "+data.daily[i].wind_speed;
+                Wnd.innerText = "Wind Speed: " + data.daily[i].wind_speed;
                 el.appendChild(Wnd);
                 //Curent Humidity
                 const Hum = document.createElement("p");
-                Hum.innerText = "Humidity: "+data.daily[i].humidity;
+                Hum.innerText = "Humidity: " + data.daily[i].humidity;
                 el.appendChild(Hum);
                 //Low Temp
                 const lowtmp = document.createElement("p");
-                lowtmp.innerText = "Daily Low: "+data.daily[i].temp.min;
+                lowtmp.innerText = "Daily Low: " + data.daily[i].temp.min;
                 el.appendChild(lowtmp);
                 //High Temp
                 const hightmp = document.createElement("p");
-                hightmp.innerText = "Daily High: "+data.daily[i].temp.max;
+                hightmp.innerText = "Daily High: " + data.daily[i].temp.max;
                 el.appendChild(hightmp);
             }
 
         });
 }
 
-function removeChildren(){
+function removeChildren() {
 
     while (currentDay.lastChild) {
         currentDay.removeChild(currentDay.lastChild);
@@ -142,5 +178,5 @@ function removeChildren(){
         day5.removeChild(day5.lastChild);
     }
     return;
-    
+
 }
