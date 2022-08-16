@@ -86,7 +86,7 @@ function getLocation() {
     //var elText = document.getElementById('reqCity').value;
     console.log(elText);
     // location api call
-    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + elText + '&limit=1&appid=' + key;
+    var requestUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + elText + '&limit=1&appid=' + key;
 
     fetch(requestUrl)
         .then(function (response) {
