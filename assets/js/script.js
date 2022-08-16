@@ -6,7 +6,13 @@ var day2 = document.getElementById('day2');
 var day3 = document.getElementById('day3');
 var day4 = document.getElementById('day4');
 var day5 = document.getElementById('day5');
+var hisBtn1 = document.getElementById('his1');
+var hisBtn2 = document.getElementById('his2');
+var hisBtn3 = document.getElementById('his3');
+var hisBtn4 = document.getElementById('his4');
+var hisBtn5 = document.getElementById('his5');
 var currentDay = document.getElementById('curentWeather');
+var searchHisArr = [];
 //var elHistory = document.getElementById('history');
 
 //##########
@@ -17,6 +23,17 @@ var currentDay = document.getElementById('curentWeather');
 //##########
 //##########
 //##########
+
+function addToArr(str) {
+    if (searchHisArr.length < 5) {
+        searchHisArr.push(str);
+    } else {
+        searchHisArr.shift();
+        searchHisArr.push(str);
+    }
+    console.dir(searchHisArr);
+}
+
 function loadHistory() {
     var elHistory = document.getElementById('history');
     // add history
@@ -27,10 +44,24 @@ function loadHistory() {
         //console.log("StorageName: "+storageName);
         var storedItems = JSON.parse(localStorage.getItem(storageName));
         console.log(storedItems)
-        const liHis = document.createElement("li");
-        liHis.innerText = storedItems.City + "," + storedItems.state;
-        console.log(liHis);
-        elHistory.appendChild(liHis);
+        searchHisArr = storedItems;
+        for (var i = 0; i < searchHisArr.length; i++) {
+            //const liHis = document.createElement("li");
+            if(i===0){
+                hisBtn1.innerText = searchHisArr[i];
+            }else if (i===1){
+                hisBtn2.innerText = searchHisArr[i];
+            }else if (i===2){
+                hisBtn3.innerText = searchHisArr[i];
+            }else if (i===3){
+                hisBtn4.innerText = searchHisArr[i];
+            }else if (i===4){
+                hisBtn5.innerText = searchHisArr[i];
+            }
+            //liHis.innerText = searchHisArr[i];
+            // console.log(liHis);
+            //elHistory.appendChild(liHis);
+        }
     }
 }
 
@@ -38,7 +69,21 @@ window.onload = loadHistory();
 
 function getLocation() {
     removeChildren();
-    var elText = document.getElementById('reqCity').value;
+    console.log(this);
+    if(this.id =='his1' ){
+        var elText = this.innerText;
+    } else if(this.id =='his2'){
+        var elText = this.innerText;
+    }else if(this.id =='his3'){
+        var elText = this.innerText;
+    }else if(this.id =='his4'){
+        var elText = this.innerText;
+    }else if(this.id =='his5'){
+        var elText = this.innerText;
+    }else{
+        var elText = document.getElementById('reqCity').value;
+    }
+    //var elText = document.getElementById('reqCity').value;
     console.log(elText);
     // location api call
     var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + elText + '&limit=1&appid=' + key;
@@ -50,16 +95,11 @@ function getLocation() {
         .then(function (data) {
             console.dir(data);
             for (var i = 0; i < data.length; i++) {
-                // console.log(data[i].name);
-                // console.log(data[i].state);
-                // console.log(data[i].lat.toString());
-                // console.log(data[i].lon.toString());
 
+                var saveObject = data[i].name + "," + data[i].state;
+                addToArr(saveObject);
 
-                //get name and state to save
-                var saveObject = { City: data[i].name, State: data[i].state };
-
-                localStorage.setItem("weatherApp", JSON.stringify(saveObject));
+                localStorage.setItem("weatherApp", JSON.stringify(searchHisArr));
 
                 getWeather(data[i].lat.toString(), data[i].lon.toString(), data[i].name, data[i].state);
             }
@@ -67,6 +107,11 @@ function getLocation() {
 }
 //button click to grab text entered by user
 fetchButton.addEventListener('click', getLocation);
+hisBtn1.addEventListener('click', getLocation);
+hisBtn2.addEventListener('click', getLocation);
+hisBtn3.addEventListener('click', getLocation);
+hisBtn4.addEventListener('click', getLocation);
+hisBtn5.addEventListener('click', getLocation);
 
 //Function to use Latitude and Longitude to get weather of location
 function getWeather(lt, ln, cty, st) {
@@ -111,7 +156,7 @@ function getWeather(lt, ln, cty, st) {
             //Get 5 day forecast
             for (i = 0; i < 5; i++) {
                 var el = null
-
+                //set element to use
                 if (i == 0) {
                     el = day1;
 
